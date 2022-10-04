@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        background: #eee !important;
+      }
+
+      .guess {
+        margin-bottom: 15px;
+      }
+
+      .letter {
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        background-color: #ccc;
+        text-transform: capitalize;
+        line-height: 40px;
+        font-family: "Consolas", "Courier New", Courier, monospace;
+        cursor: pointer;
+      }
+
+      .letter_box {
+        text-align: center;
+        margin: 0 auto;
+        width: 960px;
+      }
+
+      .yellow_tick {
+        background-color: RGBA(255,193,7,var(--bs-bg-opacity,0.5));
+      }
+
+      .green_tick {
+        background-color: RGBA(25,135,84,var(--bs-bg-opacity,0.5));
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+    <script src="dict.js"></script>
+  </head>
+  <body>
+    <div class="container" style="width: 960px">
+      <div class="px-4 py-1 my-5 text-center">
+        <h1 class="display-1 fw-bold">Mineswordle</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Wordle too easy? Try Mineswordle! It's basically Wordle, only you
+            don't see which letters are green or yellow! Kind of like
+            Minesweeper. Only Wordle!
+          </p>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <input
+          id="input"
+          type="text"
+          class="form-control"
+          placeholder="Guess word here!"
+          aria-label="Guess word here!"
+          aria-describedby="button-addon2"
+        />
+        <button
+          id="guess"
+          class="btn btn-outline-secondary"
+          type="button"
+          id="button-addon2"
+        >
+          Guess
+        </button>
+      </div>
+      <hr />
+      <div class="container" id="guesses"></div>
+    </div>
+    <script>
+      const Game = {
+        init: function () {
+          Game.dict = JSON.parse(atob(dict));
+          Game.sol = JSON.parse(atob(sol));
+          Game.solution = btoa(_.sample(Game.sol["5"]));
+          Game.numGuess = 0;
+
+          $(document).on("click", ".letter", (ele) => {
+            ele = ele.currentTarget;
+            $(ele)
+              .removeClass("text-bg-default")
+              .removeClass("green_tick")
+              .removeClass("yellow_tick");
+
+            let state = $(ele).attr("data-state");
+            switch (state) {
+              case "none":
+                $(ele).attr("data-state", "yellow");
+                $(ele).addClass("yellow_tick");
+                break;
+              case "yellow":
+                $(ele).attr("data-state", "green");
+                $(ele).addClass("green_tick");
+                break;
+              case "green":
+                $(ele).attr("data-state", "none");
+                $(ele).addClass("text-bg-default");
+                break;
+
+              default:
+                $(ele).attr("data-state", "none");
+                $(ele).addClass("text-bg-default");
+                break;
+            }
+          });
+        },
+
+        guess: function (guessValue, solution) {
+          let guessValueArray = guessValue.split("");
+          let progress = { correctPos: 0, incorrectPos: 0 };
+          let lettersGuessed = {};
+
+          //assumes guess is same length as solution
+          for (let i = 0; i < guessValueArray.length; i++) {
+            let startingIndex = 0;
+            if (typeof lettersGuessed[guessValueArray[i]] !== undefined) {
+              startingIndex = lettersGuessed[guessValueArray[i]] + 1;
+            }
+
+            let progressValue = 0;
+            var index = solution.indexOf(guessValueArray[i], startingIndex);
+            if (index > -1) {
+              lettersGuessed[guessValueArray[i]] = index;
+              if (index == i) {
+                progress.correctPos++;
+              } else {
+                progress.incorrectPos++;
+              }
+            }
+          }
+
+          Game.numGuess++;
+
+          return progress;
+        },
+        updateDisplay: function (guess) {
+          p = Game.guess(guess, atob(Game.solution).toLowerCase());
+          let div = $(`<div class="container guess" style="display:none;">
+            <div class="row align-items-center">
+            <div class="col-2 display-6">${Game.numGuess}.</div>
+            <div class="col-4 d-flex">
+            <div class="letter" data-state="none">${guess[0]}</div>
+            <div class="letter" data-state="none">${guess[1]}</div>
+            <div class="letter" data-state="none">${guess[2]}</div>
+            <div class="letter" data-state="none">${guess[3]}</div>
+            <div class="letter" data-state="none">${guess[4]}</div>
+            </div>
+            <div class="col-6 d-flex justify-content-end"><div class="letter text-bg-success">${p.correctPos}</div> <div class="letter text-bg-warning">${p.incorrectPos}</div></div>
+            </div>
+            </div>`);
+
+          div.prependTo("#guesses").slideDown();
+          $("#input").val("").focus();
+        },
+      };
+
+      Game.init();
+
+      $("#guess").click(() => {
+        Game.updateDisplay($("#input").val());
+      });
+    </script>
+  </body>
+</html>
