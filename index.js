@@ -120,7 +120,7 @@ Game.init();
 
 $(function () {
     $("#input").val("").focus();
-    $('#input').keyup((event) => {
+    $('#input').keydown((event) => {
         if (event.which === 13)
         {
             $("#guess").click();
