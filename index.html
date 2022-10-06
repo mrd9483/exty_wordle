@@ -1,231 +1,130 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style type="text/css"></style>
-    <title>Mineswordle</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script
-      src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"
-      integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY="
-      crossorigin="anonymous"
-    ></script>
-    <script src="dict.js"></script>
-    <script src="index.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
-    <link href="scss/custom.css" rel="stylesheet" />
-  </head>
-  <body>
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="help"
-      tabindex="-1"
-      aria-labelledby="Help"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">How To Play</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              <strong
-                >NOTE: This is in beta... please expect issues! And crappy
-                help!</strong
-              >
-            </p>
-            <p>
-              This game is a combination between minesweeper and Wordle. Try to
-              guess a 5-letter word and use the clues to eventually get the
-              solution.
-            </p>
-            <p>
-              <span class="badge bg-warning">2</span> means that a letter from
-              the guessed word is in the solution but not in the right spot. The
-              number represents how many letters.
-            </p>
-            <p>
-              <span class="badge bg-success">2</span> means that a letter from
-              the guessed word is in the solution and not in the right spot. The
-              number represents how many letters are in the right spot.
-            </p>
-            <p>
-              Clicking the letters in your guesses will allow you to mark
-              letters yellow, green or dark grey, to help you.
-            </p>
-            <p>
-              If you like to use similar to the keyboard in Wordle, click on the
-              lightning bolt, which will also allow you to
-            </p>
-            <p style="font-weight: bold;">
-              BETA: Every 10 guesses will give you the option to see the word. I
-              have this in place just so I can debug in case something went
-              wrong.
-            </p>
-            <p style="font-weight: bold;">
-              BETA: Winning is not very satisfying
-            </p>
-            <p style="font-weight: bold;">
-              BETA: To reset your word, just reload the page.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              I got it!
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="keyboardModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="Keyboard"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="d-flex justify-content-center p-1">
-                  <div class="letter" data-state="none">q</div>
-                  <div class="letter" data-state="none">w</div>
-                  <div class="letter" data-state="none">e</div>
-                  <div class="letter" data-state="none">r</div>
-                  <div class="letter" data-state="none">t</div>
-                  <div class="letter" data-state="none">y</div>
-                  <div class="letter" data-state="none">u</div>
-                  <div class="letter" data-state="none">i</div>
-                  <div class="letter" data-state="none">o</div>
-                  <div class="letter" data-state="none">p</div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="d-flex justify-content-center p-1">
-                  <div class="letter" data-state="none">a</div>
-                  <div class="letter" data-state="none">s</div>
-                  <div class="letter" data-state="none">d</div>
-                  <div class="letter" data-state="none">f</div>
-                  <div class="letter" data-state="none">g</div>
-                  <div class="letter" data-state="none">h</div>
-                  <div class="letter" data-state="none">j</div>
-                  <div class="letter" data-state="none">k</div>
-                  <div class="letter" data-state="none">l</div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="d-flex justify-content-center p-1">
-                  <div class="letter" data-state="none">z</div>
-                  <div class="letter" data-state="none">x</div>
-                  <div class="letter" data-state="none">c</div>
-                  <div class="letter" data-state="none">v</div>
-                  <div class="letter" data-state="none">b</div>
-                  <div class="letter" data-state="none">n</div>
-                  <div class="letter" data-state="none">m</div>
-                </div>
-              </div>
+    <head>
+        <style type="text/css"></style>
+        <title>Word Mind</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <script src="dict.js"></script>
+        <script src="index.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+        <link href="scss/custom.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Release Notes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <div id="inputModal" class="input-group mb-3">
-              <input
-                id="inputKey"
-                type="text"
-                class="form-control"
-                placeholder="Guess word here!"
-                aria-label="Guess word here!"
-                aria-describedby="button-addon2"
-              />
-              <button
-                id="guessKey"
-                class="btn btn-outline-secondary"
-                type="button"
-              >
-                Guess
-              </button>
+            <div class="offcanvas-body">
+                <div>
+                    <h5>2022.10.05</h5>
+                    <ul>
+                        <li>Name change (not sure how I confused Minesweeper with Mastermind!</li>
+                        <li>Added release notes section</li>
+                        <li>Moved help from modal to left slider, to better play with mobile</li>
+                        <li>Moved keyboard out of modal and onto main page</li>
+                        <li>Cleaned up the UI a little</li>
+                        <li>The keyboard now actually selects letters</li>
+                        <li>Works in mobile</li>
+                        <li>Removed words with duplicate letters from potential solutions</li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="position-relative">
-      <div class="position-fixed top-0 end-0 mt-3 me-3">
-        <button id="keyboard" type="button" class="btn btn-outline-primary">
-          <i data-feather="zap"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#help"
-        >
-          <i data-feather="help-circle"></i>
-        </button>
-      </div>
-    </div>
-    <div class="container" style="width: 960px">
-      <div class="px-4 py-1 my-5 text-center">
-        <h1 class="display-1 fw-bold">Mineswordle</h1>
-        <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4">
-            Wordle too easy? Try Mineswordle! It's basically Wordle, only you
-            don't see which letters are green or yellow! Kind of like
-            Minesweeper. Only Wordle!
-          </p>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="help" aria-labelledby="help">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Welcome!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p>
+                    <strong>NOTE: This is in beta... please expect issues! And crappy help!</strong>
+                </p>
+                <p>This game is a combination between Mastermind and Wordle. Try to guess a 5-letter word and use the clues to eventually get the solution.</p>
+                <p><span class="badge bg-warning">2</span> means that a letter from the guessed word is in the solution but not in the right spot. The number represents how many letters.</p>
+                <p><span class="badge bg-success">2</span> means that a letter from the guessed word is in the solution and not in the right spot. The number represents how many letters are in the right spot.</p>
+                <p>Holding down the letters on the onscreen keyboard will allow you to mark letters yellow, green or dark grey, to help you.</p>
+                <p>If you like to use similar to the keyboard in Wordle, click on the lightning bolt, which will also allow you to</p>
+                <p>NOTE: The word will have five unique letters. Allowing non-unique letters within the solution makes it much more difficult</p>
+                <p style="font-weight: bold">BETA: Every 10 guesses will give you the option to see the word. I have this in place just so I can debug in case something went wrong.</p>
+                <p style="font-weight: bold">BETA: Winning is not very satisfying</p>
+                <p style="font-weight: bold">BETA: To reset your word, just reload the page.</p>
+            </div>
         </div>
-      </div>
-
-      <div id="inputMain" class="input-group mb-3">
-        <input
-          id="input"
-          type="text"
-          class="form-control"
-          placeholder="Guess word here!"
-          aria-label="Guess word here!"
-          aria-describedby="button-addon2"
-        />
-        <button
-          id="guess"
-          class="btn btn-outline-secondary"
-          type="button"
-          id="button-addon2"
-        >
-          Guess
-        </button>
-      </div>
-      <div class="container" id="guesses">
-        <div id="start"><h1>Input your first guess!</h1></div>
-      </div>
-    </div>
-  </body>
+        <div class="sticky-top" style="background: #eee">
+            <header>
+                <div class="px-3 py-2 text-bg-dark">
+                    <div class="container">
+                        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-start">
+                            <a href="/" class="d-flex align-items-center my-0 me-auto text-white text-decoration-none"> Word Mind </a>
+                            <ul class="nav col-auto my-0 justify-content-center text-small">
+                                <li>
+                                    <a href="#" class="nav-link text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                        <i data-feather="file-text"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link text-white" data-bs-toggle="offcanvas" data-bs-target="#help" aria-controls="help">
+                                        <i data-feather="help-circle"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="container mt-4 mb-4" style="background: #eee">
+                <div class="row">
+                    <div class="d-flex justify-content-center p-1">
+                        <div class="letter" data-state="none">q</div>
+                        <div class="letter" data-state="none">w</div>
+                        <div class="letter" data-state="none">e</div>
+                        <div class="letter" data-state="none">r</div>
+                        <div class="letter" data-state="none">t</div>
+                        <div class="letter" data-state="none">y</div>
+                        <div class="letter" data-state="none">u</div>
+                        <div class="letter" data-state="none">i</div>
+                        <div class="letter" data-state="none">o</div>
+                        <div class="letter" data-state="none">p</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-center p-1">
+                        <div class="letter" data-state="none">a</div>
+                        <div class="letter" data-state="none">s</div>
+                        <div class="letter" data-state="none">d</div>
+                        <div class="letter" data-state="none">f</div>
+                        <div class="letter" data-state="none">g</div>
+                        <div class="letter" data-state="none">h</div>
+                        <div class="letter" data-state="none">j</div>
+                        <div class="letter" data-state="none">k</div>
+                        <div class="letter" data-state="none">l</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-center p-1">
+                        <div class="letter" data-state="none">z</div>
+                        <div class="letter" data-state="none">x</div>
+                        <div class="letter" data-state="none">c</div>
+                        <div class="letter" data-state="none">v</div>
+                        <div class="letter" data-state="none">b</div>
+                        <div class="letter" data-state="none">n</div>
+                        <div class="letter" data-state="none">m</div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="max-width: 510px">
+                <div id="inputMain" class="input-group mb-3">
+                    <input id="input" type="text" class="form-control" placeholder="Guess word here!" aria-label="Guess word here!" aria-describedby="button-addon2" />
+                    <button id="guess" class="btn btn-outline-secondary" type="button" id="button-addon2">Guess</button>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="max-width: 510px" id="guesses">
+            <div id="start"><h1>Input your first guess!</h1></div>
+        </div>
+    </body>
 </html>
