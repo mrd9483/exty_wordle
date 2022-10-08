@@ -2,7 +2,7 @@
 <html>
     <head>
         <style type="text/css"></style>
-        <title>Word Mind</title>
+        <title>Murdle</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -13,6 +13,27 @@
         <link href="scss/custom.css" rel="stylesheet" />
     </head>
     <body>
+        <div class="modal" id="difficultyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Choose your Difficulty</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-4 container">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+                                    <button type="button" id="easybtn" class="btn btn-lg btn-success" data-bs-dismiss="modal">"Easy"</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-lg btn-danger" data-bs-dismiss="modal">Hard</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasExampleLabel">Release Notes</h5>
@@ -20,6 +41,11 @@
             </div>
             <div class="offcanvas-body">
                 <div>
+                    <h5>2022.10.07</h5>
+                    <ul>
+                        <li>Name change again (hopefully I'll settle on this one)</li>
+                        <li>Added "Easy Mode"</li>
+                    </ul>
                     <h5>2022.10.05</h5>
                     <ul>
                         <li>Name change (not sure how I confused Minesweeper with Mastermind!</li>
@@ -31,6 +57,7 @@
                         <li>Works in mobile</li>
                         <li>Removed words with duplicate letters from potential solutions</li>
                     </ul>
+
                 </div>
             </div>
         </div>
@@ -59,7 +86,7 @@
                 <div class="px-3 py-2 text-bg-dark">
                     <div class="container">
                         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-start">
-                            <a href="/" class="d-flex align-items-center my-0 me-auto text-white text-decoration-none"> Word Mind </a>
+                            <a href="/" class="d-flex align-items-center my-0 me-auto text-white text-decoration-none"> Murdle </a>
                             <ul class="nav col-auto my-0 justify-content-center text-small">
                                 <li>
                                     <a href="#" class="nav-link text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">

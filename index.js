@@ -120,9 +120,8 @@ Game.init();
 
 $(function () {
     $("#input").val("").focus();
-    $('#input').keydown((event) => {
-        if (event.which === 13)
-        {
+    $("#input").keydown((event) => {
+        if (event.which === 13) {
             $("#guess").click();
         }
     });
@@ -138,4 +137,17 @@ $(function () {
     });
 
     feather.replace();
+
+    const difficulty = new bootstrap.Modal("#difficultyModal");
+    difficulty.show();
+
+    $("#easybtn").click(() => {
+        let sln = atob(Game.solution),
+            letter = Math.floor(Math.random() * 5),
+            guessArr = "     ".split("");
+        guessArr[letter] = sln[letter];
+        let guess = guessArr.join("");
+
+        Game.updateDisplay(guess);
+    });
 });
