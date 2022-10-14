@@ -10,8 +10,11 @@ import TopMenu from "./components/TopMenu";
 import AnswerTable from "./components/AnswerTable";
 
 import "./App.css";
+
 import WordInput from "./components/WordInput";
 import { Container, Divider } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function App() {
     const [input, setInput] = React.useState("");
@@ -27,16 +30,34 @@ function App() {
         }
     };
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: "dark",
+        },
+    });
+
     return (
-        <div>
-            <TopMenu />
-            <Container maxWidth="sm">
-                <WordInput input={input} />
-                <Divider>Answers</Divider>
-                <AnswerTable answerList={answerList} />
-                <Keyboard onKeyClick={handleKeyClick} />
-            </Container>
-        </div>
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <div className="wrapper">
+                <header>
+                    <TopMenu />
+                    <Container sx={{ mt: 1.5 }} maxWidth="sm">
+                        <WordInput input={input} />
+                    </Container>
+                    <Divider>Answers</Divider>
+                </header>
+                <div className="content">
+                    <Container maxWidth="sm">
+                        <AnswerTable answerList={answerList} />
+                    </Container>
+                </div>
+                <footer>
+                    <Divider></Divider>
+                    <Keyboard onKeyClick={handleKeyClick} />
+                </footer>
+            </div>
+        </ThemeProvider>
     );
 }
 

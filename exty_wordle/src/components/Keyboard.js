@@ -1,8 +1,8 @@
-import { Button, Drawer, Container, Stack, Box } from "@mui/material";
+import { Button, Container, Stack, Box } from "@mui/material";
 
 function KeyComponent(props) {
     return (
-        <Button key={props.letter} onClick={() => props.onClick(props.letter)} variant="contained" sx={{ minWidth: 0, width: 30, m: 0.5 }}>
+        <Button key={props.letter} onClick={() => props.onClick(props.letter)} variant="contained" sx={{ minWidth: 0, width: 30, m: .25 }}>
             {props.letter}
         </Button>
     );
@@ -16,19 +16,17 @@ function Keyboard(props) {
     };
 
     return (
-        <Drawer variant="permanent" anchor="bottom">
-            <Container maxWidth="sm">
-                <Stack>
-                    {keyboardKeys.map((row) => (
-                        <Box sx={{ mx: "auto" }}>
-                            {row.split("").map((letter) => (
-                                <KeyComponent onClick={() => handleClick(letter)} letter={letter} />
-                            ))}
-                        </Box>
-                    ))}
-                </Stack>
-            </Container>
-        </Drawer>
+        <Container maxWidth="sm">
+            <Stack>
+                {keyboardKeys.map((row) => (
+                    <Box sx={{ mx: "auto" }}>
+                        {row.split("").map((letter) => (
+                            <KeyComponent onClick={() => handleClick(letter)} letter={letter} />
+                        ))}
+                    </Box>
+                ))}
+            </Stack>
+        </Container>
     );
 }
 

@@ -19,11 +19,11 @@ function WordInput(prop) {
 
     const input = prop.input.padEnd(5, '\u00A0');
     return (
-        <div>
+        <Box sx={{ display:'flex', justifyContent: 'center' }}>
             {input.split('').map((letter) => (
                 <LetterInput>{letter}</LetterInput>
             ))}
-        </div>
+        </Box>
     );
 }
 
