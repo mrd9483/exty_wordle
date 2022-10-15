@@ -13,7 +13,7 @@ function WordInput(prop) {
         font-weight: bold;
         font-size: 24px;
         border-radius: 8px;
-        box-shadow: 0px 0px 6px gray;
+        box-shadow: 0px 0px 2px gray;
         text-transform: uppercase;
     `;
 

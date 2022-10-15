@@ -1,4 +1,8 @@
 import * as React from "react";
+import { Container, Divider, Input } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useEffect } from "react";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -8,17 +12,13 @@ import "@fontsource/roboto/700.css";
 import Keyboard from "./components/Keyboard";
 import TopMenu from "./components/TopMenu";
 import AnswerTable from "./components/AnswerTable";
-
-import "./App.css";
-
 import WordInput from "./components/WordInput";
-import { Container, Divider } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import Dictionary from "./utils/Dictionary";
 import DictionaryData from "./assets/DictionaryData";
 import GameLogic from "./utils/GameLogic";
+
+import "./App.css";
 
 function App() {
     const dictionaryData = DictionaryData();
@@ -50,6 +50,14 @@ function App() {
             mode: "dark",
         },
     });
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (input.length < 5) setInput(input + String.fromCharCode(event.keyCode));
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+    }, [input]);
 
     return (
         <ThemeProvider theme={darkTheme}>

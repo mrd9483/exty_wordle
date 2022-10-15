@@ -15,7 +15,7 @@ function AnswerBar(prop) {
         font-weight: bold;
         font-size: 18px;
         border-radius: 5px;
-        box-shadow: 0px 0px 4px gray;
+        box-shadow: 0px 0px 2px gray;
         text-transform: uppercase;
     `;
 
