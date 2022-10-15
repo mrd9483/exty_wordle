@@ -13,21 +13,36 @@ import "./App.css";
 
 import WordInput from "./components/WordInput";
 import { Container, Divider } from "@mui/material";
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
+import Dictionary from "./utils/Dictionary";
+import DictionaryData from "./assets/DictionaryData";
+import GameLogic from "./utils/GameLogic";
+
 function App() {
+    const dictionaryData = DictionaryData();
+    const dictionary = Dictionary(dictionaryData.dict[5], dictionaryData.sol[5]);
+
     const [input, setInput] = React.useState("");
     const [answerList, setAnswerList] = React.useState([]);
+    const [solution, setSolution] = React.useState(dictionary.getRandomWord());
+
+    const gameLogic = GameLogic(solution);
 
     const handleKeyClick = (key) => {
-        if (input.length < 5) {
-            setInput(input + key);
-        } else {
-            answerList.push({ word: input });
-            setAnswerList(answerList);
-            setInput("");
-        }
+        if (input.length < 5) setInput(input + key);
+    };
+
+    const handleSubmit = () => {
+        let guessObj = gameLogic.guess(input);
+
+        setAnswerList([guessObj, ...answerList]);
+        setInput("");
+    };
+
+    const handleDeleteLetter = () => {
+        if (input.length > 0) setInput(input.substring(0, input.length - 1));
     };
 
     const darkTheme = createTheme({
@@ -54,7 +69,7 @@ function App() {
                 </div>
                 <footer>
                     <Divider></Divider>
-                    <Keyboard onKeyClick={handleKeyClick} />
+                    <Keyboard onKeyClick={handleKeyClick} onSubmit={handleSubmit} onDeleteLetter={handleDeleteLetter} />
                 </footer>
             </div>
         </ThemeProvider>
