@@ -4,7 +4,7 @@ import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 
 function KeyComponent(props) {
     return (
-        <Button onClick={() => props.onClick(props.letter)} variant="contained" sx={{ fontFamily: "Consolas, monospace", fontSize:24, fontWeight:"bold", height: 45, minWidth: 0, width: 30, m: 0.25 }}>
+        <Button onClick={() => props.onClick(props.letter)} variant="contained" sx={{ fontFamily: "Consolas, monospace", fontSize:24, fontWeight:"bold", height: 45, minWidth: 0, width: 29, m: 0.25, p:0 }}>
             {props.letter}
         </Button>
     );
