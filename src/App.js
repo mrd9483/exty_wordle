@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Divider, Popover, CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";

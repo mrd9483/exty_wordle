@@ -4,7 +4,7 @@ import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 
 function KeyComponent(props) {
     return (
-        <Button onClick={() => props.onClick(props.letter)} variant="contained" sx={{ minWidth: 0, width: 30, m: 0.25 }}>
+        <Button onClick={() => props.onClick(props.letter)} variant="contained" sx={{ fontFamily: "Consolas, monospace", fontSize:24, fontWeight:"bold", height: 45, minWidth: 0, width: 30, m: 0.25 }}>
             {props.letter}
         </Button>
     );
@@ -12,16 +12,16 @@ function KeyComponent(props) {
 
 function SubmitComponent(props) {
     return (
-        <Button onClick={() => props.onSubmit()} variant="contained" sx={{ minWidth: 0, width: 50, m: 0.25 }}>
-            <KeyboardReturnIcon />
+        <Button onClick={() => props.onSubmit()} variant="contained" sx={{ height:45, fontWeight:"bold", minWidth: 0, width: 50, m: 0.25 }}>
+            <KeyboardReturnIcon fontSize="large"/>
         </Button>
     );
 }
 
 function DeleteComponent(props) {
     return (
-        <Button onClick={() => props.onDeleteLetter()} variant="contained" sx={{ minWidth: 0, width: 50, m: 0.25 }}>
-            <BackspaceOutlinedIcon />
+        <Button onClick={() => props.onDeleteLetter()} variant="contained" sx={{ height:45,  minWidth: 0, width: 50, m: 0.25 }}>
+            <BackspaceOutlinedIcon fontSize="large" />
         </Button>
     );
 }
