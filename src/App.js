@@ -2,6 +2,7 @@ import * as React from "react";
 import { Container, Divider, Popover, CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect } from "react";
+import ReactGA from 'react-ga';
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -20,6 +21,9 @@ import GameLogic from "./utils/GameLogic";
 import "./App.css";
 
 function App() {
+
+    ReactGA.initialize('G-NSHBWH8CDZ');
+
     const dictionaryData = DictionaryData();
     const dictionary = Dictionary(dictionaryData.dict[5], dictionaryData.sol[5]);
 
