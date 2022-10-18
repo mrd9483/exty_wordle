@@ -13,7 +13,7 @@ function KeyComponent(props) {
 function SubmitComponent(props) {
     return (
         <Button onClick={() => props.onSubmit()} variant="contained" sx={{ height:45, fontWeight:"bold", minWidth: 0, width: 50, m: 0.25 }}>
-            <KeyboardReturnIcon fontSize="large"/>
+            ENTER
         </Button>
     );
 }
