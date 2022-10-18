@@ -6,6 +6,11 @@ function ReleaseNotes() {
             <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
                 Release Notes
             </Typography>
+            <h5>2022.10.17</h5>
+            <ul>
+                <li>A complete overhaul for the look and feel</li>
+                <li>Now written in React</li> 
+            </ul>
             <h5>2022.10.07</h5>
             <ul>
                 <li>Name change again (hopefully I'll settle on this one)</li>

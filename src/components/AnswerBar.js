@@ -30,8 +30,8 @@ function AnswerBar(prop) {
 
     return (
         <Box sx={{ mb: 1, display: "flex", alignContent: "center", justifyContent: "center" }}>
-            {prop.answer.word.split("").map((letter) => (
-                <Letter>{letter}</Letter>
+            {prop.answer.word.split("").map((letter, index) => (
+                <Letter key={index}>{letter}</Letter>
             ))}
             <Correct sx={{ ml: 1.5 }}>{prop.answer.correct}</Correct>
             <Exists sx={{ ml: 1.5 }}>{prop.answer.exists}</Exists>

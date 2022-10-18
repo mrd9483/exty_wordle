@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Container, Divider, Input } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Container, Divider, Popover, CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -26,23 +25,40 @@ function App() {
 
     const [input, setInput] = React.useState("");
     const [answerList, setAnswerList] = React.useState([]);
-    const [solution, setSolution] = React.useState(dictionary.getRandomWord());
+    const [error, setError] = React.useState({ isError: false, error: "" });
+    const [wordInputAnchor, setWordInputAnchor] = React.useState(null);
 
-    const gameLogic = GameLogic(solution);
+    const solution = React.useRef(dictionary.getRandomWord());
+    const wordInputRef = React.useRef();
+    const gameLogic = GameLogic(solution.current);
 
     const handleKeyClick = (key) => {
         if (input.length < 5) setInput(input + key);
     };
 
     const handleSubmit = () => {
-        let guessObj = gameLogic.guess(input);
-
-        setAnswerList([guessObj, ...answerList]);
-        setInput("");
+        if (dictionary.checkIfAllowedWord(input)) {
+            const guessInfo = gameLogic.guess(input);
+            if (guessInfo.correct === 5) {
+                alert('You Win!');
+            } else {
+                setAnswerList([guessInfo, ...answerList]);
+            }
+            setInput("");
+        } else {
+            if (input.length < 5) {
+                setError({ isError: true, error: "Not a complete word!" });
+            } else {
+                setError({ isError: true, error: "Word not in dictionary" });
+            }
+            setWordInputAnchor(wordInputRef.current);
+        }
     };
 
     const handleDeleteLetter = () => {
-        if (input.length > 0) setInput(input.substring(0, input.length - 1));
+        if (input.length > 0) {
+            setInput(input.substring(0, input.length - 1));
+        }
     };
 
     const darkTheme = createTheme({
@@ -51,12 +67,17 @@ function App() {
         },
     });
 
+    const handlePopoverClose = () => {
+        setError({ isError: false });
+        setWordInputAnchor(null);
+    };
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (input.length < 5) setInput(input + String.fromCharCode(event.keyCode));
         };
 
-        document.addEventListener("keydown", handleKeyDown);
+        //document.addEventListener("keydown", handleKeyDown);
     }, [input]);
 
     return (
@@ -66,7 +87,24 @@ function App() {
                 <header>
                     <TopMenu />
                     <Container sx={{ mt: 1.5 }} maxWidth="sm">
-                        <WordInput input={input} />
+                        <div ref={wordInputRef}>
+                            <WordInput input={input}></WordInput>
+                        </div>
+                        <Popover
+                            open={error.isError}
+                            anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "center",
+                            }}
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "center",
+                            }}
+                            anchorEl={wordInputAnchor}
+                            onClose={handlePopoverClose}
+                        >
+                            <Typography sx={{ p: 2 }}>{error.error}</Typography>
+                        </Popover>
                     </Container>
                     <Divider>Answers</Divider>
                 </header>
