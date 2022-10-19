@@ -2,7 +2,7 @@ import * as React from "react";
 import { Container, Divider, Popover, CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect } from "react";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -21,8 +21,7 @@ import GameLogic from "./utils/GameLogic";
 import "./App.css";
 
 function App() {
-
-    ReactGA.initialize('G-NSHBWH8CDZ');
+    ReactGA.initialize("G-NSHBWH8CDZ");
 
     const dictionaryData = DictionaryData();
     const dictionary = Dictionary(dictionaryData.dict[5], dictionaryData.sol[5]);
@@ -44,7 +43,7 @@ function App() {
         if (dictionary.checkIfAllowedWord(input)) {
             const guessInfo = gameLogic.guess(input);
             if (guessInfo.correct === 5) {
-                alert('You Win!');
+                alert("You Win!");
             } else {
                 setAnswerList([guessInfo, ...answerList]);
             }
@@ -58,6 +57,8 @@ function App() {
             setWordInputAnchor(wordInputRef.current);
         }
     };
+
+
 
     const handleDeleteLetter = () => {
         if (input.length > 0) {
@@ -84,12 +85,14 @@ function App() {
         //document.addEventListener("keydown", handleKeyDown);
     }, [input]);
 
+
+
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <div className="wrapper">
                 <header>
-                    <TopMenu />
+                    <TopMenu solution={solution.current} />
                     <Container sx={{ mt: 1.5 }} maxWidth="sm">
                         <div ref={wordInputRef}>
                             <WordInput input={input}></WordInput>
@@ -122,6 +125,7 @@ function App() {
                     <Keyboard onKeyClick={handleKeyClick} onSubmit={handleSubmit} onDeleteLetter={handleDeleteLetter} />
                 </footer>
             </div>
+  
         </ThemeProvider>
     );
 }

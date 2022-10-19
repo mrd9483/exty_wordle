@@ -2,14 +2,25 @@ import * as React from "react";
 
 import { AppBar, Box, Toolbar, Typography, IconButton, MenuItem, Menu, Drawer } from "@mui/material";
 import HelpRounded from "@mui/icons-material/HelpRounded";
+import PsychologyAltOutlinedIcon from "@mui/icons-material/PsychologyAltOutlined";
 
 import ReleaseNotes from "./ReleaseNotes";
 import HowToPlay from "./HowToPlay";
+import GuessDialog from "./GuessDialog";
 
-function TopMenu() {
+function TopMenu({ solution }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isOpenReleaseNotes, setIsOpenReleaseNotes] = React.useState(false);
     const [isOpenHowToPlay, setIsOpenHowToPlay] = React.useState(false);
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+
+    const handleGiveUp = () => {
+        setDialogOpen(true);
+    }
+
+    const closeGiveUp = () => {
+        setDialogOpen(false);
+    }
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -37,7 +48,10 @@ function TopMenu() {
                         Murdle
                     </Typography>
                     <div>
-                        <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
+                        <IconButton size="large" aria-label="account of current user" saria-controls="menu-appbar" aria-haspopup="true" onClick={handleGiveUp} color="inherit">
+                            <PsychologyAltOutlinedIcon />
+                        </IconButton>
+                        <IconButton size="large" aria-label="account of current user" saria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
                             <HelpRounded />
                         </IconButton>
                         <Menu
@@ -67,6 +81,7 @@ function TopMenu() {
             <Drawer anchor="left" open={isOpenHowToPlay} onClose={() => setIsOpenHowToPlay(false)}>
                 <HowToPlay />
             </Drawer>
+            <GuessDialog dialogOpen={dialogOpen} onCloseDialog={closeGiveUp} solution={solution} />
         </Box>
     );
 }
