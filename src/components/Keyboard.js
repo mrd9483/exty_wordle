@@ -20,7 +20,7 @@ function SubmitComponent(props) {
 
 function DeleteComponent(props) {
     return (
-        <Button onClick={() => props.onDeleteLetter()} variant="contained" sx={{ height:45,  minWidth: 0, width: 50, m: 0.25 }}>
+        <Button onClick={() => props.onDeleteLetter()} variant="contained" sx={{ height:45,  minWidth: 0, width: 50, m: 0.33 }}>
             <BackspaceOutlinedIcon fontSize="large" />
         </Button>
     );

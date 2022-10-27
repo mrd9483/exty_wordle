@@ -10,8 +10,17 @@ export default function Dictionary(allowedWords, solutions) {
         return _.sample(solutions);
     }
 
+    function getRandomNoAnswer(wordCompare) {
+        return _.sample(
+            _.filter(solutions, (word) => {
+                return _.xor(word.split(""), wordCompare.split("")).length === wordCompare.length * 2;
+            })
+        );
+    }
+
     return Object.freeze({
         checkIfAllowedWord,
         getRandomWord,
+        getRandomNoAnswer
     });
 }

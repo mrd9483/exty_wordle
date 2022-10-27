@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Divider, Popover, CssBaseline, Typography } from "@mui/material";
+import { Container, Divider, Popover, CssBaseline, Typography, Dialog, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect } from "react";
 import ReactGA from "react-ga";
@@ -30,6 +30,7 @@ function App() {
     const [answerList, setAnswerList] = React.useState([]);
     const [error, setError] = React.useState({ isError: false, error: "" });
     const [wordInputAnchor, setWordInputAnchor] = React.useState(null);
+    const [openDialog, setOpenDialog] = React.useState(true);
 
     const solution = React.useRef(dictionary.getRandomWord());
     const wordInputRef = React.useRef();
@@ -58,7 +59,23 @@ function App() {
         }
     };
 
+    const handleDialogMedium = () => {
+        const letter = Math.floor(Math.random() * solution.current.length);
+        const guessArr = "     ".split("");
+        guessArr[letter] = solution.current[letter];
+        const guessInfo = gameLogic.guess(guessArr.join(""));
 
+        setAnswerList([guessInfo, ...answerList]);
+        setInput("");
+        setOpenDialog(false);
+    };
+
+    const handleDialogEasy = () => {
+        const guessInfo = gameLogic.guess(dictionary.getRandomNoAnswer(solution.current));
+        setAnswerList([guessInfo, ...answerList]);
+        setInput("");
+        setOpenDialog(false);
+    };
 
     const handleDeleteLetter = () => {
         if (input.length > 0) {
@@ -85,7 +102,9 @@ function App() {
         //document.addEventListener("keydown", handleKeyDown);
     }, [input]);
 
-
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -124,8 +143,17 @@ function App() {
                     <Divider></Divider>
                     <Keyboard onKeyClick={handleKeyClick} onSubmit={handleSubmit} onDeleteLetter={handleDeleteLetter} />
                 </footer>
+                <Dialog open={openDialog} keepMounted onClose={handleDialogClose} aria-describedby="alert-dialog-slide-description">
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">Choose your difficulty</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleDialogEasy}>Pretty Hard</Button>
+                        <Button onClick={handleDialogMedium}>Hard</Button>
+                        <Button onClick={handleDialogClose}>Very Hard</Button>
+                    </DialogActions>
+                </Dialog>
             </div>
-  
         </ThemeProvider>
     );
 }
