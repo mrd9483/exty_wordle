@@ -86,6 +86,12 @@ function App() {
     const darkTheme = createTheme({
         palette: {
             mode: "dark",
+            custom: {
+                light: '#ffa726',
+                main: '#333333',
+                dark: '#333333',
+                contrastText: 'rgba(255,255,255, 0.87)',
+              }
         },
     });
 
